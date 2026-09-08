@@ -1,37 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pascalogix Structura | Atomic TODO Notebook</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #fff; color: #111; font-family: 'Inter', sans-serif; }
+        body {
+            background-color: #ffffff;
+            color: #111111;
+            font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
         .red-accent { color: #d32f2f; }
-        .bg-planner { background: #f9fafb; }
-        .task-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 2px; padding: 0.5rem; cursor: grab; transition: 0.2s; margin-bottom: 0.25rem; font-size: 0.8rem; user-select: none; touch-action: none; }
-        .task-card:hover { border-color: #111; background: #f9fafb; }
+        .bg-planner { background-color: #f9fafb; }
+
+        .task-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 2px;
+            padding: 0.5rem;
+            cursor: grab;
+            transition: all 0.2s ease;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
+            user-select: none;
+        }
+        .task-card:hover { border-color: #111111; background: #f9fafb; }
         .task-card.selected { border: 2px solid #d32f2f; background: #fff5f5; }
-        .task-card.dragging { opacity: 0.5; }
-        .planner-slot { background: #fff; border: 1px dashed #cbd5e1; border-radius: 2px; min-height: 60px; margin-bottom: 0.25rem; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0.5rem; color: #9ca3af; font-size: 0.75rem; transition: 0.2s; cursor: pointer; position: relative; }
+        .task-card.dragging { opacity: 0.5; border-style: dashed; }
+
+        .planner-slot {
+            background: #ffffff;
+            border: 1px dashed #cbd5e1;
+            border-radius: 2px;
+            min-height: 60px;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0.5rem;
+            color: #9ca3af;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
         .planner-slot:hover { border-color: #d32f2f; background: #fff5f5; }
-        .planner-slot.filled { border: 1px solid #111; background: #fff; color: #111; justify-content: flex-start; text-align: left; cursor: default; }
+        .planner-slot.filled {
+            border: 1px solid #111111;
+            background: #ffffff;
+            color: #111111;
+            justify-content: flex-start;
+            text-align: left;
+            cursor: default;
+        }
         .planner-slot.drag-over { border-color: #d32f2f; background: #ffe5e5; }
-        .remove-btn { position: absolute; top: 4px; right: 4px; color: #d32f2f; cursor: pointer; font-size: 1.5rem; line-height: 1; padding: 0.4rem; background: #fff; border: 1px solid #d32f2f; border-radius: 2px; z-index: 5; }
+
+        .remove-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            color: #d32f2f;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 1;
+            padding: 0.4rem;
+            background: #fff;
+            border: 1px solid #d32f2f;
+            border-radius: 2px;
+            z-index: 5;
+        }
         .remove-btn:hover { background: #d32f2f; color: #fff; }
-        .total-bar { background: #111; color: #fff; padding: 0.75rem; text-align: center; font-size: 1rem; font-weight: bold; margin-top: 0.5rem; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 0.5rem; }
-        .total-bar .red-accent { color: #fff; }
-        .col-header { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #111; border-bottom: 2px solid #111; padding-bottom: 0.25rem; margin-bottom: 0.5rem; font-weight: bold; text-align: center; }
-        .date-input { font-size: 0.7rem; border: 1px solid #ccc; padding: 2px 4px; border-radius: 2px; margin-top: 4px; width: 45%; float: right; margin-left: 10px; }
-        .phase-detail { background: #e2e8f0; border: 1px solid #e5e7eb; padding: 1rem; margin-top: 1rem; }
-        .static-plan-header { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; border-bottom: 2px solid #111; padding-bottom: 1rem; margin-bottom: 2rem; }
-        .phase-block { border-left: 4px solid #d32f2f; padding-left: 1.5rem; margin-bottom: 2.5rem; }
-        .phase-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem; }
-        .add-task-form { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-        .add-task-form input[type="text"] { flex: 1; min-width: 150px; padding: 0.4rem 0.6rem; border: 1px solid #ccc; border-radius: 2px; font-size: 0.8rem; }
-        .add-task-form button { background: #111; color: #fff; border: none; padding: 0.4rem 1rem; border-radius: 2px; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
+
+        .total-bar {
+            background: #111111;
+            color: #ffffff;
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .total-bar .red-accent { color: #ffffff; }
+
+        .col-header {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #111111;
+            border-bottom: 2px solid #111111;
+            padding-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .date-input {
+            font-size: 0.7rem;
+            border: 1px solid #ccc;
+            padding: 2px 4px;
+            border-radius: 2px;
+            margin-top: 4px;
+            width: 45%;
+            float: right;
+            margin-left: 10px;
+        }
+
+        .phase-detail {
+            background: #e2e8f0;
+            border: 1px solid #e5e7eb;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .static-plan-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-bottom: 2px solid #111111;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .phase-block {
+            border-left: 4px solid #d32f2f;
+            padding-left: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .phase-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .add-task-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .add-task-form input[type="text"] {
+            flex: 1;
+            min-width: 150px;
+            padding: 0.4rem 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            font-size: 0.8rem;
+        }
+        .add-task-form button {
+            background: #111111;
+            color: #fff;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
         .add-task-form button:hover { background: #d32f2f; }
-        @media (max-width: 640px) { .total-bar { flex-direction: column; align-items: center; } .date-input { width: 100%; float: none; margin-left: 0; } }
+
+        @media (max-width: 640px) {
+            .total-bar { flex-direction: column; align-items: center; }
+            .date-input { width: 100%; float: none; margin-left: 0; }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -39,7 +173,7 @@
     <header class="shrink-0 border-b border-black py-3 bg-white z-10">
         <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <img src="assets/logo.png" alt="Pascalogix Insignia" class="w-12 md:w-24">
+                <!-- Logo removed -->
                 <span class="text-xl font-bold">Pascalogix Structura</span>
             </div>
             <div>
@@ -141,7 +275,6 @@
                     selectedTaskId = task.id;
                     renderAll();
                 });
-                // Desktop drag
                 div.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData('text/plain', task.id);
                     div.classList.add('dragging');
@@ -149,15 +282,9 @@
                 div.addEventListener('dragend', () => {
                     div.classList.remove('dragging');
                 });
-                // Mobile touch drag
                 div.addEventListener('touchstart', (e) => {
                     const touch = e.touches[0];
-                    dragData = {
-                        taskId: task.id,
-                        startX: touch.clientX,
-                        startY: touch.clientY,
-                        element: div
-                    };
+                    dragData = { taskId: task.id, element: div };
                     div.classList.add('dragging');
                 }, { passive: true });
                 div.addEventListener('touchmove', (e) => {
